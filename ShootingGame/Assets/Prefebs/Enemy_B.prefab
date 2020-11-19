@@ -161,3 +161,6 @@ MonoBehaviour:
   ItemPower: {fileID: 4974255840061859568, guid: b849690d1bf84b24ea19770e6263ac98,
     type: 3}
   player: {fileID: 0}
+  pattern: 0
+  curPatternCount: 0
+  maxPatternCount: 

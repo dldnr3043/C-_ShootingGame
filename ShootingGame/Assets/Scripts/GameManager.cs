@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private float curSpawnDelay;
 
     public GameObject player;
+    bool boss = true;
 
     // UI
     public Text scoreText;
@@ -22,29 +23,49 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        curSpawnDelay += Time.deltaTime;
-
-        if(curSpawnDelay > maxSpawnDelay)
-        {
-            SpawnEnemy();
-
-            Player playerLogic1 = player.GetComponent<Player>();
-
-            if (playerLogic1.power < 2)
-                maxSpawnDelay = UnityEngine.Random.Range(2f, 3f);
-            else if(playerLogic1.power < 3)
-            {
-                maxSpawnDelay = UnityEngine.Random.Range(1f, 2f);
-            }
-            else
-                maxSpawnDelay = UnityEngine.Random.Range(0.5f, 0.8f);
-            curSpawnDelay = 0;
-        }
-
-
         // UI Score Update
         Player playerLogic = player.GetComponent<Player>();
         scoreText.text = string.Format("{0:n0}", playerLogic.score);
+
+        curSpawnDelay += Time.deltaTime;
+
+        if(playerLogic.score > 10000)
+        {
+            if (boss)
+            {
+                BossSpawn();
+            }
+        }
+        else
+        {
+            if (curSpawnDelay > maxSpawnDelay)
+            {
+                SpawnEnemy();
+
+                Player playerLogic1 = player.GetComponent<Player>();
+
+                if (playerLogic1.power < 2)
+                    maxSpawnDelay = UnityEngine.Random.Range(2f, 3f);
+                else if (playerLogic1.power < 3)
+                {
+                    maxSpawnDelay = UnityEngine.Random.Range(1f, 2f);
+                }
+                else
+                    maxSpawnDelay = UnityEngine.Random.Range(0.5f, 0.8f);
+                curSpawnDelay = 0;
+            }
+        }
+    }
+
+    void BossSpawn()
+    {
+        boss = false;
+        GameObject enemy = Instantiate(enemyObjs[3],
+                                        spawnPoints[2].position,
+                                        spawnPoints[2].rotation);
+        Rigidbody2D rigid = enemy.GetComponent<Rigidbody2D>();
+        Enemy enemyLogic = enemy.GetComponent<Enemy>();
+        enemyLogic.player = player;
     }
 
     void SpawnEnemy()

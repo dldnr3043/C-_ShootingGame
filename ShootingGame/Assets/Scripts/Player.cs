@@ -196,7 +196,6 @@ public class Player : MonoBehaviour
             }
             else
             {
-                power = 1;
                 manager.RespawnPlayer();
             }
             
