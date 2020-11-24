@@ -36,6 +36,11 @@ public class Player : MonoBehaviour
         Fire();
         Boom();
         Reload();
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     void Move()
